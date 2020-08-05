@@ -104,8 +104,8 @@ class Module extends \yii\base\Module
         if ($this->navbar === null && Yii::$app instanceof \yii\web\Application) {
             $this->navbar = [
                 ['label' => Yii::t('rbac-admin', 'Help'), 'url' => ['default/index']],
-                // ['label' => Yii::t('rbac-admin', 'Application'), 'url' => Yii::$app->homeUrl],
                 ['label' => Yii::t('rbac-admin', 'Ganti Password'), 'url' => ['/admin/user/change-password'], 'options' => ['data-method'=>'post']],
+                ['label' => 'Buku Panduan Manual', 'url' => Yii::$app->request->baseUrl . "/buku-manual-admin.pdf"],
                 ['label' => Yii::t('rbac-admin', 'Logout'), 'url' => ['/site/logout'], 'options' => ['data-method'=>'post']],
             ];
         }

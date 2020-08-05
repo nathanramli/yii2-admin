@@ -56,6 +56,7 @@ class Assignment extends \mdm\admin\BaseObject
         return $success;
     }
 
+
     /**
      * Revokes a roles from a user.
      * @param array $items

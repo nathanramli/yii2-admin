@@ -4,6 +4,8 @@ namespace mdm\admin\controllers;
 
 use mdm\admin\components\ItemController;
 use yii\rbac\Item;
+use Yii;
+
 
 /**
  * RoleController implements the CRUD actions for AuthItem model.
@@ -29,6 +31,9 @@ class RoleController extends ItemController
      */
     public function getType()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         return Item::TYPE_ROLE;
     }
 }

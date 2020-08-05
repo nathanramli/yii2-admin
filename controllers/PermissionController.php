@@ -4,6 +4,8 @@ namespace mdm\admin\controllers;
 
 use mdm\admin\components\ItemController;
 use yii\rbac\Item;
+use Yii;
+
 
 /**
  * PermissionController implements the CRUD actions for AuthItem model.
@@ -30,6 +32,9 @@ class PermissionController extends ItemController
      */
     public function getType()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         return Item::TYPE_PERMISSION;
     }
 }

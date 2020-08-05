@@ -67,7 +67,8 @@ class Configs extends \mdm\admin\BaseObject
     /**
      * @var integer Cache duration. Default to a hour.
      */
-    public $cacheDuration = 3600;
+    public $cacheDuration = 5;
+    // Mungkin Gara2 menu Lama *decyber
 
     /**
      * @var string Menu table name.
@@ -77,7 +78,22 @@ class Configs extends \mdm\admin\BaseObject
     /**
      * @var string Menu table name.
      */
+    public $ruteTable = '{{%auth_item}}';
+
+    /**
+     * @var string Menu table name.
+     */
+    public $modulTable = '{{%modul}}';
+
+    /**
+     * @var string Menu table name.
+     */
     public $userTable = '{{%user}}';
+
+    /**
+     * @var string Menu table name.
+     */
+    public $authModulTable = '{{%auth_modul}}';
 
     /**
      * @var integer Default status user signup. 10 mean active.

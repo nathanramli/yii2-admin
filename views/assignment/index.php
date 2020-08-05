@@ -12,7 +12,6 @@ use yii\widgets\Pjax;
 
 $this->title = Yii::t('rbac-admin', 'Assignments');
 $this->params['breadcrumbs'][] = $this->title;
-
 $columns = [
     ['class' => 'yii\grid\SerialColumn'],
     $usernameField,
@@ -22,11 +21,17 @@ if (!empty($extraColumns)) {
 }
 $columns[] = [
     'class' => 'yii\grid\ActionColumn',
-    'template' => '{view}'
+    'template' => '{view} {view-modul}',
+    'buttons' => [ 'view-modul' => function ($url,$model) {
+        return Html::a(
+            '<span class="glyphicon glyphicon-transfer"></span>', 
+            ['view-modul', 'id' => $model->id],
+            ['data-toggle' => 'tooltip', 'title' => 'Akses Modul']
+        );
+    }]
 ];
 ?>
 <div class="assignment-index">
-
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php Pjax::begin(); ?>

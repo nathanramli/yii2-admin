@@ -44,8 +44,8 @@ DetailView::widget([
     'attributes' => [
         'name',
         'description:ntext',
-        'ruleName',
-        'data:ntext',
+        // 'ruleName',
+        // 'data:ntext',
     ],
     'template' => '<tr><th style="width:25%">{label}</th><td>{value}</td></tr>',
 ]);

@@ -2,12 +2,15 @@
 
 namespace mdm\admin\controllers;
 
+use yii\filters\AccessControl;
 use Yii;
 use mdm\admin\models\Assignment;
+use mdm\admin\models\Modul;
 use mdm\admin\models\searchs\Assignment as AssignmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 /**
  * AssignmentController implements the CRUD actions for Assignment model.
@@ -24,6 +27,32 @@ class AssignmentController extends Controller
     public $searchClass;
     public $extraColumns = [];
 
+     /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'assign' => ['post'],
+                    'assign' => ['post'],
+                    'revoke' => ['post'],
+                ],
+            ],
+        ];
+    }
+    
     /**
      * @inheritdoc
      */
@@ -36,21 +65,6 @@ class AssignmentController extends Controller
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'assign' => ['post'],
-                    'revoke' => ['post'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Assignment models.
@@ -58,15 +72,18 @@ class AssignmentController extends Controller
      */
     public function actionIndex()
     {
+        // if (Yii::$app->user->isGuest) {
+        //     return $this->goHome();
+        // }
 
-        if ($this->searchClass === null) {
+        // if ($this->searchClass === null) {
             $searchModel = new AssignmentSearch;
-            $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams(), $this->userClassName, $this->usernameField);
-        } else {
-            $class = $this->searchClass;
-            $searchModel = new $class;
-            $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
-        }
+            // $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams(), $this->userClassName, $this->usernameField);
+        // } else {
+            // $searchModel->username = '';
+            $dataProvider = $searchModel->searchNew(Yii::$app->request->queryParams);
+        // }
+        // var_dump($searchModel);
 
         return $this->render('index', [
                 'dataProvider' => $dataProvider,
@@ -94,6 +111,22 @@ class AssignmentController extends Controller
         ]);
     }
 
+
+    public function actionViewModul($id)
+    {
+        $model = $this->findModel($id);
+        $modul = Modul::findOne(['id' => $id]);
+        if(!$modul) $modul = new Modul;
+
+        return $this->render('view-modul', [
+                'model' => $model,
+                'modul' => $modul,
+                'idField' => $this->idField,
+                'usernameField' => $this->usernameField,
+                'fullnameField' => $this->fullnameField,
+        ]);
+    }
+
     /**
      * Assign items
      * @param string $id
@@ -113,6 +146,22 @@ class AssignmentController extends Controller
      * @param string $id
      * @return array
      */
+    public function actionInsertModul($id)
+    {
+        $items = Yii::$app->getRequest()->post('items', []);
+        $model = new Modul();
+        
+        $success = $model->inputModulBulk($items, $id);
+        Yii::$app->getResponse()->format = 'json';
+        return array_merge($model->getItems($id), ['success' => $success]);
+    }
+
+
+    /**
+     * Assign items
+     * @param string $id
+     * @return array
+     */
     public function actionRevoke($id)
     {
         $items = Yii::$app->getRequest()->post('items', []);
@@ -120,6 +169,20 @@ class AssignmentController extends Controller
         $success = $model->revoke($items);
         Yii::$app->getResponse()->format = 'json';
         return array_merge($model->getItems(), ['success' => $success]);
+    }
+
+    /**
+     * Assign items
+     * @param string $id
+     * @return array
+     */
+    public function actionRevokeModul($id)
+    {
+        $items = Yii::$app->getRequest()->post('items', []);
+        $model = new Modul();
+        $success = $model->revokeModulBulk($items, $id);
+        Yii::$app->getResponse()->format = 'json';
+        return array_merge($model->getItems($id), ['success' => $success]);
     }
 
     /**

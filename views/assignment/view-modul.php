@@ -16,7 +16,7 @@ if (!empty($fullnameField)) {
 }
 $userName = Html::encode($userName);
 
-$this->title = Yii::t('rbac-admin', 'Assignment') . ' : ' . $userName;
+$this->title = Yii::t('rbac-admin', 'Akses Modul') . ' : ' . $userName;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('rbac-admin', 'Assignments'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $userName;
@@ -24,10 +24,10 @@ $this->params['breadcrumbs'][] = $userName;
 AnimateAsset::register($this);
 YiiAsset::register($this);
 $opts = Json::htmlEncode([
-    'items' => $model->getItems(),
+    'items' => $modul->getItems($model->id),
 ]);
 $this->registerJs("var _opts = {$opts};");
-$this->registerJs($this->render('_script.js'));
+$this->registerJs($this->render('_script-modul.js'));
 $animateIcon = ' <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i>';
 ?>
 <div class="assignment-index">
@@ -41,12 +41,12 @@ $animateIcon = ' <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate
         </div>
         <div class="col-sm-1">
             <br><br>
-            <?= Html::a('&gt;&gt;' . $animateIcon, ['assign', 'id' => (string) $model->id], [
+            <?= Html::a('&gt;&gt;' . $animateIcon, ['insert-modul', 'id' => (string) $model->id], [
                 'class' => 'btn btn-success btn-assign',
                 'data-target' => 'available',
                 'title' => Yii::t('rbac-admin', 'Assign'),
             ]); ?><br><br>
-            <?= Html::a('&lt;&lt;' . $animateIcon, ['revoke', 'id' => (string) $model->id], [
+            <?= Html::a('&lt;&lt;' . $animateIcon, ['revoke-modul', 'id' => (string) $model->id], [
                 'class' => 'btn btn-danger btn-assign',
                 'data-target' => 'assigned',
                 'title' => Yii::t('rbac-admin', 'Remove'),

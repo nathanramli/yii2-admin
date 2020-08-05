@@ -124,7 +124,7 @@ class Route extends \mdm\admin\BaseObject
             $routes = [];
             // Save original app.
             $yiiApp = Yii::$app;
-            // Step through each configured application
+            // Step through each configured 
             foreach ($advanced as $id => $configPaths) {
                 // Force correct id string.
                 $id = $this->routePrefix . ltrim(trim($id), $this->routePrefix);

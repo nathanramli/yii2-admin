@@ -9,6 +9,8 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use common\models\OfficeOrUnit;
+
 
 /**
  * User model
@@ -18,6 +20,10 @@ use yii\web\IdentityInterface;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
+ * @property string $id_bagian
+ * @property string $id_kelompok
+ * @property string $id_cabang
+ * @property string $nama
  * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
@@ -167,6 +173,16 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Generates password hash from password and sets it to the model
+     *
+     * @param string $password
+     */
+    public function setPasswordNew($password)
+    {
+        return Yii::$app->security->generatePasswordHash($password);
+    }
+
+    /**
      * Generates "remember me" authentication key
      */
     public function generateAuthKey()
@@ -193,5 +209,11 @@ class User extends ActiveRecord implements IdentityInterface
     public static function getDb()
     {
         return Configs::userDb();
+    }
+
+    // CUSTOM RELASI
+    public function getCabang()
+    {
+        return $this->hasOne(OfficeOrUnit::className(), ['unit_id' => 'id_cabang']);
     }
 }

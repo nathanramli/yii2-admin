@@ -19,7 +19,7 @@ $controllerId = $this->context->uniqueId . '/';
 
     <p>
         <?php
-        if ($model->status == 0 && Helper::checkRoute($controllerId . 'activate')) {
+        if ($model->status == 0 && Helper::checkRoute('/' . $controllerId . 'activate')) {
             echo Html::a(Yii::t('rbac-admin', 'Activate'), ['activate', 'id' => $model->id], [
                 'class' => 'btn btn-primary',
                 'data' => [
@@ -30,7 +30,8 @@ $controllerId = $this->context->uniqueId . '/';
         }
         ?>
         <?php
-        if (Helper::checkRoute($controllerId . 'delete')) {
+        // var_dump(Helper::checkRoute('/'.$controllerId . 'delete'));
+        // if (Helper::checkRoute($controllerId . 'delete')) {
             echo Html::a(Yii::t('rbac-admin', 'Delete'), ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
@@ -38,20 +39,22 @@ $controllerId = $this->context->uniqueId . '/';
                     'method' => 'post',
                 ],
             ]);
-        }
+        // }
         ?>
     </p>
 
     <?=
-    DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'username',
-            'email:email',
-            'created_at:date',
-            'status',
-        ],
-    ])
+        DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'username',
+                'nama',
+                'is_admin',
+                'email:email',
+                'created_at:date',
+                'status',
+            ],
+        ])
     ?>
 
 </div>

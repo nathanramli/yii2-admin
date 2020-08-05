@@ -62,7 +62,7 @@ class MenuHelper
      * @param boolean  $refresh
      * @return array
      */
-    public static function getAssignedMenu($userId, $root = null, $callback = null, $refresh = false)
+    public static function getAssignedMenu($userId, $root = null, $callback = null, $refresh = false, $modul)
     {
         $config = Configs::instance();
 
@@ -110,7 +110,7 @@ class MenuHelper
             $assigned = [];
             $query = Menu::find()->select(['id'])->asArray();
             if (count($filter2)) {
-                $assigned = $query->where(['route' => $filter2])->column();
+                $assigned = $query->where(['route' => $filter2, 'modul_id' => $modul])->column();
             }
             if (count($filter1)) {
                 $query->where('route like :filter');

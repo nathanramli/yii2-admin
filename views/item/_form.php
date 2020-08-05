@@ -35,11 +35,11 @@ $this->registerJs($js);
 
             <?= $form->field($model, 'description')->textarea(['rows' => 2]) ?>
         </div>
-        <div class="col-sm-6">
+        <!-- <div class="col-sm-6">
             <?= $form->field($model, 'ruleName')->textInput(['id' => 'rule_name']) ?>
 
             <?= $form->field($model, 'data')->textarea(['rows' => 6]) ?>
-        </div>
+        </div> -->
     </div>
     <div class="form-group">
         <?php

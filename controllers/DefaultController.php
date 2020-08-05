@@ -18,6 +18,9 @@ class DefaultController extends \yii\web\Controller
      */
     public function actionIndex($page = 'README.md')
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         if (strpos($page, '.png') !== false) {
             $file = Yii::getAlias("@mdm/admin/{$page}");
             return Yii::$app->getResponse()->sendFile($file);

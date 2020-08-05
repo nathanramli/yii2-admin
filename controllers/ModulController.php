@@ -4,30 +4,26 @@ namespace mdm\admin\controllers;
 
 use yii\filters\AccessControl;
 use Yii;
-use mdm\admin\models\Menu;
-use mdm\admin\models\searchs\Menu as MenuSearch;
+use mdm\admin\models\Modul;
+use mdm\admin\models\searchs\Modul as ModulSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use mdm\admin\components\Helper;
-use mdm\admin\components\Configs;
-use mdm\admin\models\AuthItem as ModelsAuthItem;
-use mdm\admin\models\Rute;
-
-// use mdm\admin\models\searchs\AuthItem;
 
 /**
- * MenuController implements the CRUD actions for Menu model.
+ * ModulController implements the CRUD actions for Modul model.
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class MenuController extends Controller
+class ModulController extends Controller
 {
 
     /**
      * @inheritdoc
      */
+
     public function behaviors()
     {
         return [
@@ -43,14 +39,14 @@ class MenuController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    // 'delete' => ['post'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
     }
 
     /**
-     * Lists all Menu models.
+     * Lists all Modul models.
      * @return mixed
      */
     public function actionIndex()
@@ -58,7 +54,7 @@ class MenuController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        $searchModel = new MenuSearch;
+        $searchModel = new ModulSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
@@ -68,7 +64,7 @@ class MenuController extends Controller
     }
 
     /**
-     * Displays a single Menu model.
+     * Displays a single Modul model.
      * @param  integer $id
      * @return mixed
      */
@@ -80,14 +76,13 @@ class MenuController extends Controller
     }
 
     /**
-     * Creates a new Menu model.
+     * Creates a new Modul model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Menu;
-
+        $model = new Modul;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Helper::invalidate();
@@ -100,7 +95,7 @@ class MenuController extends Controller
     }
 
     /**
-     * Updates an existing Menu model.
+     * Updates an existing Modul model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param  integer $id
      * @return mixed
@@ -108,9 +103,6 @@ class MenuController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        // if ($model->menuParent) {
-        //     $model->parent_name = $model->menuParent->name;
-        // }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Helper::invalidate();
             return $this->redirect(['view', 'id' => $model->id]);
@@ -122,49 +114,29 @@ class MenuController extends Controller
     }
 
     /**
-     * Deletes an existing Menu model.
-     * If deletion is successful, the browser will be redirected to the 'menu' page.
+     * Deletes an existing Modul model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param  integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        Helper::invalidate(); 
+        Helper::invalidate();
 
-        return $this->redirect('menu');
+        return $this->redirect(['index']);
     }
 
     /**
-     * Get saved routes.
-     * @return array
-     */
-    private static $name;
-    public static function actionGetRute($q = null, $id = null)
-    {
-
-        $out = ['results' => ['id' => '', 'text' => '']];
-        if (!is_null($q)) {
-            $query = "SELECT name as id, name as text FROM " . Yii::$app->params['dbadmin'].".dbo.".Rute::tableName() . " WHERE (name LIKE '/%' AND name LIKE '{$q}%')";
-            $data = Yii::$app->db->createCommand($query)->queryAll();
-            $out['results'] = array_values($data);
-        } elseif ($id > 0) {
-            $out['results'] = ['id' => '', 'text' => Rute::find()->where(['name' => $id])->one()['name']];
-        }
-        return json_encode($out);
-       
-    }
-   
-    /**
-     * Finds the Menu model based on its primary key value.
+     * Finds the Modul model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param  integer $id
-     * @return Menu the loaded model
+     * @return Modul the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Menu::findOne($id)) !== null) {
+        if (($model = Modul::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

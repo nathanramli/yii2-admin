@@ -22,7 +22,7 @@ class Menu extends MenuModel
     public function rules()
     {
         return [
-            [['id', 'parent', 'order'], 'integer'],
+            [['id', 'parent', 'order', 'modul_id'], 'integer'],
             [['name', 'route', 'parent_name'], 'safe'],
         ];
     }

@@ -13,14 +13,23 @@ use yii\web\View;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \mdm\admin\models\form\Signup */
 
-$this->title = Yii::t('rbac-admin', 'Signup');
+$this->title = "Daftarkan User Baru";
 $this->params['breadcrumbs'][] = $this->title;
 // Get Data Bagian
 $modbagian = BagianModels::find()->select(['IDBAGIAN', new \yii\db\Expression("NAMABAGIAN")])->all();
 $bidang = ArrayHelper::map($modbagian, 'IDBAGIAN', 'NAMABAGIAN');
+
+/***
+ * Cek jika admin adalah admin cabang
+ */
+$filterWhere = array('parent_id' => 0);
+if(Yii::$app->user->identity->is_admin == 2) $filterWhere += array('unit_id' => Yii::$app->user->identity->id_cabang);
+
 // Get Data Cabang
-$modcabang = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")])->where(['parent_id' => 0])->all();
+$modcabang = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")])->where($filterWhere)->all();
 $cabang = ArrayHelper::map($modcabang, 'unit_id', 'name');
+
+
 // Get Data Unit Kerja
 $modunit_kerja = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")])->where(['parent_id' => 1])->all();
 $unit_kerja = ArrayHelper::map($modunit_kerja, 'unit_id', 'name');
@@ -65,15 +74,17 @@ $this->registerJs(
                 <?= $form->field($model, 'username') ?>
             <?php } ?>
             <?= $form->field($model, 'email') ?>
+
             <?= $form->field($model, 'id_cabang')->widget(Select2::classname(), [
                 'data' => $cabang,
                 'language' => 'en',
-                'options' => ['id' => 'parent_id', 'placeholder' => 'Pilih Cabang ...'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ])->label('Cabang');
-            ?>
+                'options' => [
+                    'value' => Yii::$app->user->identity->id_cabang,
+                    'id' => 'parent_id', 
+                    'placeholder' => 'Pilih Cabang ...'
+                ]
+            ])->label('Cabang'); ?>
+
             <?= $form->field($model, 'id_bagian')->widget(Select2::classname(), [
                 'data' => $unit_kerja,
                 'language' => 'en',

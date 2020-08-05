@@ -3,6 +3,7 @@
 use yii\bootstrap\NavBar;
 use yii\bootstrap\Nav;
 use yii\helpers\Html;
+use common\widgets\Alert;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -43,6 +44,7 @@ $this->registerCssFile($url.'/main.css');
         ?>
 
         <div class="container">
+            <?= Alert::widget() ?>
             <?= $content ?>
         </div>
 

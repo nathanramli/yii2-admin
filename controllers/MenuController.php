@@ -10,8 +10,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use mdm\admin\components\Helper;
-use mdm\admin\components\Configs;
-use mdm\admin\models\AuthItem as ModelsAuthItem;
 use mdm\admin\models\Rute;
 
 // use mdm\admin\models\searchs\AuthItem;
@@ -88,7 +86,6 @@ class MenuController extends Controller
     {
         $model = new Menu;
 
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Helper::invalidate();
             return $this->redirect(['view', 'id' => $model->id]);
@@ -129,10 +126,17 @@ class MenuController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        Helper::invalidate(); 
+        /* 
+         * Get Object Model
+         */
+        $model = $this->findModel($id);
+        $name = $model->name;
+        $model->delete();
 
-        return $this->redirect('menu');
+        Helper::invalidate(); 
+        Yii::$app->session->setFlash("success", "Berhasil menghapus menu <b>\"{$name}\"</b>.");
+
+        return $this->redirect(['index']);
     }
 
     /**

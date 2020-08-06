@@ -272,7 +272,7 @@ class UserController extends Controller
         $model->username = $model->username;
         $model->password_hash = $user->setPasswordNew($model->username);
         if ($model->save(false)) {
-            Yii::$app->getSession()->setFlash('success', 'Berhasil Reset Password');
+            Yii::$app->getSession()->setFlash('success', "Berhasil Reset Password!<br/>Password sekarang menjadi <b>{$model->username}</b>");
             return $this->goUser();
         } else {
             Yii::$app->getSession()->setFlash('error', 'Gagal Reset Password');

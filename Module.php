@@ -62,13 +62,7 @@ class Module extends \yii\base\Module
      */
     private $_coreItems = [
         'user' => 'Users',
-        'assignment' => 'Assignments',
-        'role' => 'Roles',
-        'permission' => 'Permissions',
-        'route' => 'Routes',
-        // 'rule' => 'Rules',
-        'menu' => 'Menus',
-        'modul' => 'Modul',
+        'assignment' => 'Assignments'
     ];
     /**
      * @var array
@@ -92,6 +86,15 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
+        if(Yii::$app->user->identity->is_admin == 1)
+            $this->_coreItems += array(
+                'role' => 'Roles',
+                'permission' => 'Permissions',
+                'route' => 'Routes',
+                'menu' => 'Menus',
+                'modul' => 'Modul'
+            );
+        
         if (!isset(Yii::$app->i18n->translations['rbac-admin'])) {
             Yii::$app->i18n->translations['rbac-admin'] = [
                 'class' => 'yii\i18n\PhpMessageSource',

@@ -82,7 +82,9 @@ $this->registerJs(
                     'value' => Yii::$app->user->identity->id_cabang,
                     'id' => 'parent_id', 
                     'placeholder' => 'Pilih Cabang ...'
-                ]
+                ] + 
+                // Append dengan options value
+                ($model->isNewRecord ? ['value' => Yii::$app->user->identity->id_cabang] : [])
             ])->label('Cabang'); ?>
 
             <?= $form->field($model, 'id_bagian')->widget(Select2::classname(), [

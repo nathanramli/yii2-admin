@@ -48,8 +48,8 @@ $this->registerJs($this->render('_script.js'));
                 'options' => ['id' => 'id', 'placeholder' => 'Pilih Parent ...'],
                 'pluginOptions' => [
                     'allowClear' => true
-                ],
-            ]);
+                ]
+            ])->label("Parent " . Html::tag('small', '(optional)', ['class' => 'text-warning','style' => 'font-style: italic;']));
             ?>
 
             <?=
@@ -83,7 +83,7 @@ $this->registerJs($this->render('_script.js'));
         <div class="col-sm-6">
             <?= $form->field($model, 'order')->input('number') ?>
 
-            <?= $form->field($model, 'data')->textarea(['rows' => 2]) ?>
+            <?= $form->field($model, 'data')->textarea(['rows' => 2])->label("Data " . Html::tag('small', '(optional)', ['class' => 'text-warning','style' => 'font-style: italic;'])) ?>
             <?= $form->field($model, 'modul_id')->widget(Select2::classname(), [
                 'data' => $modul,
                 'language' => 'en',

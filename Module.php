@@ -86,7 +86,7 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        if(Yii::$app->user->identity->is_admin == 1)
+        if(!Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin == 1)
             $this->_coreItems += array(
                 'role' => 'Roles',
                 'permission' => 'Permissions',

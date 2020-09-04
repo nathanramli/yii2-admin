@@ -92,14 +92,20 @@ class Assignment extends \mdm\admin\BaseObject
             $available[$name] = 'role';
         }
 
-        foreach (array_keys($manager->getPermissions()) as $name) {
-            if ($name[0] != '/') {
-                $available[$name] = 'permission';
+        // Check jika admin kantor pusat
+        if(Yii::$app->user->identity->is_admin == 1){
+            foreach (array_keys($manager->getPermissions()) as $name) {
+                if ($name[0] != '/') {
+                    $available[$name] = 'permission';
+                }
             }
         }
 
         $assigned = [];
         foreach ($manager->getAssignments($this->id) as $item) {
+            // Check if item doesn't exist in available items
+            // Thats means if some menu doesn't allowed to appear
+            if(!isset($available[$item->roleName])) continue;
             $assigned[$item->roleName] = $available[$item->roleName];
             unset($available[$item->roleName]);
         }

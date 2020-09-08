@@ -10,7 +10,11 @@ $menus = $controller->module->menus;
 $route = $controller->route;
 foreach ($menus as $i => $menu) {
     $menus[$i]['active'] = strpos($route, trim($menu['url'][0], '/')) === 0;
+
+    if(trim($route, '/') == "admin/user-act-history/index" && trim($menu['url'][0], '/') == "admin/user")
+        $menus[$i]['active'] = false;
 }
+
 $this->params['nav-items'] = $menus;
 ?>
 <?php $this->beginContent($controller->module->mainLayout) ?>

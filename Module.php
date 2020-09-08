@@ -92,7 +92,8 @@ class Module extends \yii\base\Module
                 'permission' => 'Permissions',
                 'route' => 'Routes',
                 'menu' => 'Menus',
-                'modul' => 'Modul'
+                'modul' => 'Modul',
+                'user-act-history' => 'History User'
             );
         
         if (!isset(Yii::$app->i18n->translations['rbac-admin'])) {

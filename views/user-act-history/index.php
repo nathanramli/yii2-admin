@@ -42,7 +42,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'label' => 'Jenis Aksi'
             ],
-            'url:ntext',
+            [
+                'attribute' => 'url',
+                'enableSorting' => false
+            ],
             'modul',
             'keterangan',
             'tanggal',

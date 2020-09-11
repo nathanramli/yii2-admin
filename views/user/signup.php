@@ -23,7 +23,8 @@ $bidang = ArrayHelper::map($modbagian, 'IDBAGIAN', 'NAMABAGIAN');
  * Cek jika admin adalah admin cabang
  */
 $filterWhere = array('parent_id' => 0);
-if(Yii::$app->user->identity->is_admin == 2) $filterWhere += array('unit_id' => Yii::$app->user->identity->id_cabang);
+if(Yii::$app->user->identity->is_admin != 1) 
+    $filterWhere += array('unit_id' => Yii::$app->user->identity->id_cabang);
 
 // Get Data Cabang
 $modcabang = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")])->where($filterWhere)->all();
@@ -79,7 +80,6 @@ $this->registerJs(
                 'data' => $cabang,
                 'language' => 'en',
                 'options' => [
-                    'value' => Yii::$app->user->identity->id_cabang,
                     'id' => 'parent_id', 
                     'placeholder' => 'Pilih Cabang ...'
                 ] + 

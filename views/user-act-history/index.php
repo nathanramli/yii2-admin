@@ -1,7 +1,7 @@
 <?php
 
+use kartik\grid\GridView as KartikGridView;
 use yii\helpers\Html;
-use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel mdm\admin\models\searchs\UserActHistorySearch */
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
+    <?= KartikGridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -48,7 +48,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'modul',
             'keterangan',
-            'tanggal',
+            [
+                'attribute' => 'tanggal',
+                'filterType' => KartikGridView::FILTER_DATE_RANGE,
+                'filterWidgetOptions' => [
+                    'startAttribute' => 'tanggal_awal',
+                    'endAttribute' => 'tanggal_akhir',
+                    'convertFormat' => true,
+                    'presetDropdown' => true,
+                    'defaultPresetValueOptions' => ['style' => 'display:none'],
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                        // 'timePicker'=>true, //Display time //'Time Picker Increment'=>5, //min interval
+                        // 'timePicker24Hour' => true, //24 hour system
+                        'locale' => ['format' => 'Y-m-d H:i:s'], //php formatting time
+                    ],
+                ],        
+            ],
 
             // ['class' => 'yii\grid\ActionColumn'],
         ],

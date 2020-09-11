@@ -11,6 +11,9 @@ use common\models\UserActHistory;
  */
 class UserActHistorySearch extends UserActHistory
 {
+    public $tanggal_awal;
+    public $tanggal_akhir;
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +21,7 @@ class UserActHistorySearch extends UserActHistory
     {
         return [
             [['id', 'id_user'], 'integer'],
-            [['username', 'nama', 'url', 'modul', 'keterangan', 'tanggal'], 'safe'],
+            [['username', 'nama', 'url', 'modul', 'keterangan', 'tanggal', 'tanggal_awal', 'tanggal_akhir'], 'safe'],
         ];
     }
 
@@ -50,6 +53,15 @@ class UserActHistorySearch extends UserActHistory
 
         $this->load($params);
 
+        if($this->tanggal != ""){
+            // Explode kedua tanggal
+            $tanggal = explode(' - ', $this->tanggal);
+
+            // Masukan awal dan akhir
+            $this->tanggal_awal = $tanggal[0];
+            $this->tanggal_akhir = $tanggal[1];
+        }
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -60,11 +72,12 @@ class UserActHistorySearch extends UserActHistory
         $query->andFilterWhere([
             'id' => $this->id,
             'id_user' => $this->id_user,
-            'act' => $this->act,
-            'tanggal' => $this->tanggal,
+            'act' => $this->act
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
+            // Between
+            ->andFilterWhere(['between', 'tanggal', $this->tanggal_awal, $this->tanggal_akhir])
             ->andFilterWhere(['like', 'nama', $this->nama])
             ->andFilterWhere(['like', 'url', $this->url])
             ->andFilterWhere(['like', 'modul', $this->modul])

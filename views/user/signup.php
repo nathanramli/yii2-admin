@@ -22,14 +22,17 @@ $bidang = ArrayHelper::map($modbagian, 'IDBAGIAN', 'NAMABAGIAN');
 /***
  * Cek jika admin adalah admin cabang
  */
-$filterWhere = array('parent_id' => 0);
-if(Yii::$app->user->identity->is_admin != 1) 
-    $filterWhere += array('unit_id' => Yii::$app->user->identity->id_cabang);
+$modcabangac = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")])->where($filterWhere)->orWhere("code IN ('30', '31')");
 
-// Get Data Cabang
-$modcabang = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")])->where($filterWhere)->orWhere("code IN ('30', '31')")->all();
+if(Yii::$app->user->identity->is_admin != 1)
+    $modcabangac->where(["unit_id" => Yii::$app->user->identity->id_cabang]);
+else{
+    $modcabangac->where(["parent_id" => 0])
+        ->orWhere("code IN ('30', '31')");
+}
+$modcabang = $modcabangac->all();
+
 $cabang = ArrayHelper::map($modcabang, 'unit_id', 'name');
-
 
 // Get Data Unit Kerja
 $modunit_kerja = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")])->where(['parent_id' => 1])->all();

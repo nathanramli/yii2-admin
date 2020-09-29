@@ -27,7 +27,7 @@ if(Yii::$app->user->identity->is_admin != 1)
     $filterWhere += array('unit_id' => Yii::$app->user->identity->id_cabang);
 
 // Get Data Cabang
-$modcabang = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")])->where($filterWhere)->all();
+$modcabang = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")])->where($filterWhere)->orWhere("code IN ('30', '31')")->all();
 $cabang = ArrayHelper::map($modcabang, 'unit_id', 'name');
 
 

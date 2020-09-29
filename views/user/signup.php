@@ -22,7 +22,7 @@ $bidang = ArrayHelper::map($modbagian, 'IDBAGIAN', 'NAMABAGIAN');
 /***
  * Cek jika admin adalah admin cabang
  */
-$modcabangac = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")])->where($filterWhere)->orWhere("code IN ('30', '31')");
+$modcabangac = OfficeOrUnit::find()->select(['unit_id', new \yii\db\Expression("name")]);
 
 if(Yii::$app->user->identity->is_admin != 1)
     $modcabangac->where(["unit_id" => Yii::$app->user->identity->id_cabang]);

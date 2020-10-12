@@ -94,6 +94,7 @@ class Module extends \yii\base\Module
                 'menu' => 'Menus',
                 'modul' => 'Modul',
                 'unit-kerja' => 'Unit kerja',
+                'bagian' => 'Bagian',
                 'user-act-history' => 'History User'
             );
         

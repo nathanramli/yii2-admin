@@ -75,7 +75,8 @@ class User extends Model
 
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'nama', $this->nama]);
+            ->andFilterWhere(['like', 'nama', $this->nama])
+            ->andFilterWhere(['like', 'id_bidang', $this->id_bidang]);
 
         if ($this->id_cabang != '') {
             $cek_unit_kerja = OfficeOrUnit::findOne(['unit_id' => $this->id_cabang]);

@@ -7,6 +7,7 @@ use common\models\OfficeOrUnit;
 use appanggaran\models\BagianModels;
 use appgudang\models\masterData\KelompokPetugas;
 use kartik\grid\GridView;
+use mdm\admin\AutocompleteAsset;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 
@@ -20,6 +21,9 @@ $identity = Yii::$app->user->identity;
 
 $this->title = Yii::t('rbac-admin', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
+
+AutocompleteAsset::register($this);
+
 ?>
 <div class="user-index">
 
@@ -27,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <p>
-        <?= Html::a(Yii::t('rbac-admin', 'Create User'), ['signup'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-plus"></i> Tambah User Baru', ['signup'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?=
@@ -93,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class' => 'yii\grid\ActionColumn',
                     // 'template' => Helper::filterActionColumn(['view', 'activates', 'delete']),
-                    'template' => '{tombolAktiv} {reset-password} {hapus} {edit}',
+                    'template' => '{tombolAktiv} {reset-password} {edit} {hapus}',
                     'urlCreator' => function ($action, $model, $key, $index) {
                         if ($action === 'tombolAktiv') {
                             return Url::toRoute(['user/activate', 'id' => $model['id']]);
@@ -116,18 +120,18 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, $options);
                         },
                         'reset-password' => function ($url, $model) {
-                            return Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', ['reset-password-new', 'id' => $model->id], ['class' => 'btn btn-danger btn-sm', 'data-toggle' => 'tooltip', 'data-confirm' => "Anda yakin ingin mereset password user ini?", 'title' => 'Reset Password']);
+                            return Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', ['reset-password-new', 'id' => $model->id], ['class' => 'label label-info', 'data-toggle' => 'tooltip', 'data-confirm' => "Anda yakin ingin mereset password user ini?", 'title' => 'Reset Password']);
                         },
                         'edit' => function ($url, $model) {
 
-                            return Html::a('<span class="glyphicon glyphicon-edit"></span>', ['update', 'id' => $model->id], ['class' => 'btn btn-danger btn-sm', 'data-toggle' => 'tooltip', 'title' => 'Edit User']);
+                            return Html::a('<span class="glyphicon glyphicon-edit"></span>', ['update', 'id' => $model->id], ['class' => 'label label-warning', 'data-toggle' => 'tooltip', 'title' => 'Edit User']);
                         },
                         'hapus' => function ($url, $model) {
                             $options = [
                                 'title' => Yii::t('rbac-admin', 'Hapus'),
                                 'aria-label' => Yii::t('rbac-admin', 'Hapus'),
                                 'data-confirm' => Yii::t('rbac-admin', 'Are you sure you want to Delete this user?'),
-                                'class' => 'btn btn-success btn-sm', 
+                                'class' => 'label label-danger', 
                                 'data-toggle' => 'tooltip', 
                                 'data' => [
                                     'confirm' => 'Anda yakin ingin Menghapus user ini?',

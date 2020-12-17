@@ -27,6 +27,7 @@ class AutocompleteAsset extends AssetBundle
      */
     public $js = [
         'jquery-ui.js',
+        'additional.js'
     ];
     /**
      * @inheritdoc

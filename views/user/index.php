@@ -116,8 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, $options);
                         },
                         'reset-password' => function ($url, $model) {
-
-                            return Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', ['reset-password-new', 'id' => $model->id], ['class' => 'btn btn-danger btn-sm', 'data-toggle' => 'tooltip', 'title' => 'Reset Password']);
+                            return Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', ['reset-password-new', 'id' => $model->id], ['class' => 'btn btn-danger btn-sm', 'data-toggle' => 'tooltip', 'data-confirm' => "Anda yakin ingin mereset password user ini?", 'title' => 'Reset Password']);
                         },
                         'edit' => function ($url, $model) {
 

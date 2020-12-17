@@ -26,7 +26,7 @@ $this->registerCssFile($url.'/main.css');
         <?php
         NavBar::begin([
             'brandLabel' => false,
-            'options' => ['class' => 'navbar-inverse navbar-fixed-top'],
+            'options' => ['class' => 'navbar-fixed-top'],
         ]);
 
         if (!empty($this->params['top-menu']) && isset($this->params['nav-items'])) {
